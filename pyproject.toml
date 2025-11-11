@@ -1,0 +1,16 @@
+[project]
+name = "step_audio_editx_sm"
+description = "Step_Audio_EditX：the first open-source LLM-based audio model excelling at expressive and iterative audio editing—encompassing emotion, speaking style, and paralinguistics—alongside robust zero-shot text-to-speech (TTS) capabilities，try it in comfyUI"
+version = "1.0.0"
+license = {file = "LICENSE"}
+dependencies = ["torch", "torchaudio", "torchvision", "transformers==4.53.3", "accelerate", "openai-whisper==20240930", "onnxruntime-gpu", "onnxruntime", "omegaconf", "librosa", "#sox", "modelscope", "numpy", "six", "conformer", "diffusers", "pillow", "sentencepiece", "funasr>=1.1.3", "protobuf", "nvidia-cuda-nvrtc-cu12"]
+
+[project.urls]
+Repository = "https://github.com/smthemex/ComfyUI_Step_Audio_EditX_SM"
+#  Used by Comfy Registry https://registry.comfy.org
+
+[tool.comfy]
+PublisherId = "smthemex"
+DisplayName = "ComfyUI_Step_Audio_EditX_SM"
+Icon = ""
+includes = []
