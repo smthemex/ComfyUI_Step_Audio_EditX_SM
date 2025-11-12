@@ -28,9 +28,9 @@ class CosyVoiceFrontEnd(object):
             campplus_model, sess_options=option,
             providers=["CPUExecutionProvider"]
         )
-        self.speech_tokenizer_session = onnxruntime.InferenceSession(
-            speech_tokenizer_model, sess_options=option, providers=["CUDAExecutionProvider" if torch.cuda.is_available() else "CPUExecutionProvider"],
-        )
+        # self.speech_tokenizer_session = onnxruntime.InferenceSession(
+        #     speech_tokenizer_model, sess_options=option, providers=["CUDAExecutionProvider" if torch.cuda.is_available() else "CPUExecutionProvider"],
+        # )
     
     def extract_speech_feat(self, audio:torch.Tensor, audio_sr:int):
         if audio_sr != self.sample_rate:
@@ -53,20 +53,20 @@ class CosyVoiceFrontEnd(object):
         embedding = torch.tensor([embedding])
         return embedding
     
-    def extract_speech_token(self, audio:torch.Tensor, audio_sr:int):
-        if audio_sr != 16000:
-            audio = torchaudio.functional.resample(audio, orig_freq=audio_sr, new_freq=16000)
-            audio_sr = 16000
-        assert (
-            audio.shape[1] / 16000 <= 30
-        ), "do not support extract speech token for audio longer than 30s"
-        feat = whisper.log_mel_spectrogram(audio, n_mels=128)
+    # def extract_speech_token(self, audio:torch.Tensor, audio_sr:int):
+    #     if audio_sr != 16000:
+    #         audio = torchaudio.functional.resample(audio, orig_freq=audio_sr, new_freq=16000)
+    #         audio_sr = 16000
+    #     assert (
+    #         audio.shape[1] / 16000 <= 30
+    #     ), "do not support extract speech token for audio longer than 30s"
+    #     feat = whisper.log_mel_spectrogram(audio, n_mels=128)
 
-        onnx_in = {
-            self.speech_tokenizer_session.get_inputs()[0].name: feat.detach().cpu().numpy(),
-            self.speech_tokenizer_session.get_inputs()[1].name: np.array([feat.shape[2]], dtype=np.int32),
-        }
-        speech_token = self.speech_tokenizer_session.run(None, onnx_in)[0].flatten().tolist()
-        speech_token = torch.tensor([speech_token], dtype=torch.int32)
-        speech_token_len = torch.tensor([speech_token.shape[1]], dtype=torch.int32)
-        return speech_token, speech_token_len
+    #     onnx_in = {
+    #         self.speech_tokenizer_session.get_inputs()[0].name: feat.detach().cpu().numpy(),
+    #         self.speech_tokenizer_session.get_inputs()[1].name: np.array([feat.shape[2]], dtype=np.int32),
+    #     }
+    #     speech_token = self.speech_tokenizer_session.run(None, onnx_in)[0].flatten().tolist()
+    #     speech_token = torch.tensor([speech_token], dtype=torch.int32)
+    #     speech_token_len = torch.tensor([speech_token.shape[1]], dtype=torch.int32)
+    #     return speech_token, speech_token_len
