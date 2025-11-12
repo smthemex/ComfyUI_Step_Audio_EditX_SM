@@ -395,6 +395,12 @@ class StepAudioTTS:
         prompt_wav, prompt_wav_sr = torchaudio.load(prompt_wav_path)
         if prompt_wav.shape[0] > 1:
             prompt_wav = prompt_wav.mean(dim=0, keepdim=True)  # 将多通道音频转换为单通道
+            
+        # volume-normalize avoid clipping
+        norm = torch.max(torch.abs(prompt_wav), dim=1, keepdim=True)[0]
+        if norm > 0.6: # hard code;  max absolute value is 0.6
+            prompt_wav = prompt_wav / norm * 0.6 
+            
         speech_feat, speech_feat_len = self.cosy_model.frontend.extract_speech_feat(
             prompt_wav, prompt_wav_sr
         )
