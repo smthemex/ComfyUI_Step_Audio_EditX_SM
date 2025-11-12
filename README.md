@@ -5,7 +5,7 @@
 * sampler菜单选择clone时为zero shot 语音克隆,上面的prompt文字内容跟输入音频一致,下面的是文生音频的目标prompt;
 * 不选择clone时为edit模式,下方的prompt失效,按照工作流的note,在edit info输入tag来编辑你想要的style或者情绪;
 * offload在Vram小于16时使用; 
-* n edit iter 为编辑的轮次,一般2或者3就有好的效果;  
+* n_edit_iter 为编辑的轮次,一般2或者3就有好的效果;  
 * When selecting 'clone' from the sampler menu, it is a'zero shot' voice clone. The prompt text 'above' is consistent with the input audio, and the prompt 'below' is for the text generated audio; 
 * When 'clone' is not selected, it is in edit mode, and the prompt below becomes invalid. Follow the note in the workflow and enter the tag in 'edit_info' to edit the 'style' or 'emotion' you want; 
 * 'Offload' is used when Vram is less than 16G;  
@@ -21,7 +21,7 @@ git clone https://github.com/smthemex/ComfyUI_Step_Audio_EditX_SM
 
 2.requirements  
 ----
-* 精简掉 sox 和hyperpyyaml,diffuser版本因为tokens的问题,用diffuser==4.53.3版本,或者低于,否则无声;
+* 精简掉 sox 和hyperpyyaml,transformer版本因为tokens的问题,用transformer==4.53.3版本,或者低于,否则无声;
 * funasr库即便安装完成,注意控制台的信息,可能还需要装一个库(忘记是哪个了)
 ```
 pip install -r requirements.txt
