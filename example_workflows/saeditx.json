@@ -5,6 +5,87 @@
   "last_link_id": 9,
   "nodes": [
     {
+      "id": 7,
+      "type": "Step_Audio_EditX_SM_Model",
+      "pos": [
+        1199.0260917650742,
+        167.79840058176794
+      ],
+      "size": [
+        288.24375,
+        58
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "model",
+          "type": "Step_Audio_EditX_SM_Model",
+          "links": [
+            5
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Step_Audio_EditX_SM_Model"
+      },
+      "widgets_values": [
+        "local"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "PreviewAny",
+      "pos": [
+        1956.9492483580202,
+        358.86830926650106
+      ],
+      "size": [
+        301.0822288169784,
+        119.28754330441132
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "source",
+          "type": "*",
+          "link": 8
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewAny"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 6,
+      "type": "Note",
+      "pos": [
+        1497.5573133177213,
+        -92.29566477916508
+      ],
+      "size": [
+        501.46587827526196,
+        198.57583978138476
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "support edit info\nemotion: [\n            'happy', 'angry', 'sad', 'humour', 'confusion', 'disgusted',\n            'empathy', 'embarrass', 'fear', 'surprised', 'excited',\n            'depressed', 'coldness', 'admiration', 'remove'\n        ],\nstyle: [\n            'serious', 'arrogant', 'child', 'older', 'girl', 'pure',\n            'sister', 'sweet', 'ethereal', 'whisper', 'gentle', 'recite',\n            'generous', 'act_coy', 'warm', 'shy', 'comfort', 'authority',\n            'chat', 'radio', 'soulful', 'story', 'vivid', 'program',\n            'news', 'advertising', 'roar', 'murmur', 'shout', 'deeply', 'loudly',\n            'remove', 'exaggerated'\n        ],\nspeed: [\"faster\", \"slower\", \"more faster\", \"more slower\"],\n\n[Sichuanese] or [Cantonese]\n\n"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
       "id": 8,
       "type": "Step_Audio_EditX_SM_KSampler",
       "pos": [
@@ -12,8 +93,8 @@
         176.52205079685393
       ],
       "size": [
-        402.5044132407493,
-        274.69588955965907
+        363.0413765415826,
+        306
       ],
       "flags": {},
       "order": 3,
@@ -50,12 +131,14 @@
         "Node name for S&R": "Step_Audio_EditX_SM_KSampler"
       },
       "widgets_values": [
-        "额，大家好，我是T8，周日比较忙。",
-        "这里输入你要输出的声音",
-        "clone",
-        "sad",
+        "大家好，我是高允贞，很高兴见到大家。",
+        "",
+        "emotion",
+        "happy",
         true,
-        2
+        3,
+        0.6,
+        0.9
       ]
     },
     {
@@ -70,7 +153,7 @@
         136
       ],
       "flags": {},
-      "order": 0,
+      "order": 2,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -86,48 +169,17 @@
         "Node name for S&R": "LoadAudio"
       },
       "widgets_values": [
-        "序列 01_3.wav",
+        "cebc7c1cdd3c858e95d7d07d59c54b8d4d297e2f0f186bf354cfebeb80bd608a (2).flac",
         null,
         null
-      ]
-    },
-    {
-      "id": 7,
-      "type": "Step_Audio_EditX_SM_Model",
-      "pos": [
-        1199.0260917650742,
-        167.79840058176794
-      ],
-      "size": [
-        288.24375,
-        58
-      ],
-      "flags": {},
-      "order": 1,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "model",
-          "type": "Step_Audio_EditX_SM_Model",
-          "links": [
-            5
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "Step_Audio_EditX_SM_Model"
-      },
-      "widgets_values": [
-        "local"
       ]
     },
     {
       "id": 4,
       "type": "SaveAudio",
       "pos": [
-        1997.4622802408585,
-        169.34840966377377
+        1965.9829362952928,
+        160.48443183509758
       ],
       "size": [
         292.72362542086876,
@@ -148,56 +200,6 @@
       "widgets_values": [
         "audio/ComfyUI"
       ]
-    },
-    {
-      "id": 5,
-      "type": "PreviewAny",
-      "pos": [
-        1997.1711703685555,
-        345.9669671584013
-      ],
-      "size": [
-        301.0822288169784,
-        119.28754330441132
-      ],
-      "flags": {},
-      "order": 5,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "source",
-          "type": "*",
-          "link": 8
-        }
-      ],
-      "outputs": [],
-      "properties": {
-        "Node name for S&R": "PreviewAny"
-      },
-      "widgets_values": []
-    },
-    {
-      "id": 6,
-      "type": "Note",
-      "pos": [
-        1497.5573133177213,
-        -92.29566477916508
-      ],
-      "size": [
-        501.46587827526196,
-        198.57583978138476
-      ],
-      "flags": {},
-      "order": 2,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [],
-      "properties": {},
-      "widgets_values": [
-        "support edit info\nemotion: [\n            'happy', 'angry', 'sad', 'humour', 'confusion', 'disgusted',\n            'empathy', 'embarrass', 'fear', 'surprised', 'excited',\n            'depressed', 'coldness', 'admiration', 'remove'\n        ],\nstyle: [\n            'serious', 'arrogant', 'child', 'older', 'girl', 'pure',\n            'sister', 'sweet', 'ethereal', 'whisper', 'gentle', 'recite',\n            'generous', 'act_coy', 'warm', 'shy', 'comfort', 'authority',\n            'chat', 'radio', 'soulful', 'story', 'vivid', 'program',\n            'news', 'advertising', 'roar', 'murmur', 'shout', 'deeply', 'loudly',\n            'remove', 'exaggerated'\n        ],\nspeed: [\"faster\", \"slower\", \"more faster\", \"more slower\"],\n\n[Sichuanese] or [Cantonese]\n\n"
-      ],
-      "color": "#432",
-      "bgcolor": "#653"
     }
   ],
   "links": [
@@ -238,10 +240,10 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 1.2100000000000006,
+      "scale": 1.2100000000000004,
       "offset": [
-        -963.4020029322519,
-        143.03408094060003
+        -1026.1065578491507,
+        162.16500684529117
       ]
     },
     "frontendVersion": "1.28.8",
