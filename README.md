@@ -1,11 +1,18 @@
 # ComfyUI_Step_Audio_EditX_SM
 [ Step_Audio_EditX](https://github.com/stepfun-ai/Step-Audio-EditX)：the first open-source LLM-based audio model excelling at expressive and iterative audio editing—encompassing emotion, speaking style, and paralinguistics—alongside robust zero-shot text-to-speech (TTS) capabilities，try it in comfyUI
 
-# Tips
+# Update
+* 插件音频归一化峰值（max_amplitude）外置，LLM的temperature外置，输入音频大于峰值（max_amplitude）时则执行归一化（避免削波，该值为归一化处理后声音的峰值），temperature默认是7,（直白点理解，越大越有创造性，越低越保守）
+* paralinguistic模式 需要在第二行的prompt输入助词： 假设音频内容是：早上好 ,吃了没， 第二行输入，早上好,[Suprise-ah] ,吃了没
+* 情绪及style的音频内容要跟info 的情绪或表达 方向一致，比如你的文字内容是开心，才用happy，模型没那么强力，它最多帮你强化情绪，不能创造又哭有笑的情绪
+* None in audio normalization peak value（max_amplitude） is external, LLM's temperature is external, and normalization is performed when it is greater than the peak value (to avoid clipping, change the value to the normalized peak value of the sound). The default temperature is 7, (to be understood in plain white, the larger the value, the more creative it is, and the lower the value, the more conservative it is)
+
+  
+# Previous 
 * sampler菜单选择clone时为zero shot 语音克隆,上面的prompt文字内容跟输入音频一致,下面的是文生音频的目标prompt;
 * 不选择clone时为edit模式,下方的prompt失效,按照工作流的note,在edit info输入tag来编辑你想要的style或者情绪;
 * offload在Vram小于16时使用; 
-* n_edit_iter 为编辑的轮次,一般2或者3就有好的效果;  
+* n_edit_iter 为编辑的轮次,一般2或者3就有好的效果;
 * When selecting 'clone' from the sampler menu, it is a'zero shot' voice clone. The prompt text 'above' is consistent with the input audio, and the prompt 'below' is for the text generated audio; 
 * When 'clone' is not selected, it is in edit mode, and the prompt below becomes invalid. Follow the note in the workflow and enter the tag in 'edit_info' to edit the 'style' or 'emotion' you want; 
 * 'Offload' is used when Vram is less than 16G;  
