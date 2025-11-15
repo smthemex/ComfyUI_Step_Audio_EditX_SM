@@ -115,7 +115,9 @@ class StepAudioTTS:
         self,
         prompt_wav_path: str,
         prompt_text: str,
-        target_text: str
+        target_text: str,
+        max_amplitude=0.6,
+        temperature=0.7,
     ) -> Tuple[torch.Tensor, int]:
         """
         Clone voice from reference audio
@@ -133,7 +135,7 @@ class StepAudioTTS:
             logger.debug(f"Starting voice cloning: {prompt_wav_path}")
             prompt_wav, _ = torchaudio.load(prompt_wav_path)
             vq0206_codes, vq02_codes_ori, vq06_codes_ori, speech_feat, _, speech_embedding = (
-                self.preprocess_prompt_wav(prompt_wav_path)
+                self.preprocess_prompt_wav(prompt_wav_path,max_amplitude)
             )
             if self.offload_cpu:
                 self.cosy_model.to("cpu")
@@ -160,7 +162,7 @@ class StepAudioTTS:
                 torch.tensor([token_ids]).to(torch.long).to("cuda"),
                 #max_new_tokens=self.max_new_tokens, 
                 max_length=8192,
-                temperature=0.7,
+                temperature=temperature,
                 do_sample=True,
                 logits_processor=LogitsProcessorList([RepetitionAwareLogitsProcessor()]),
             )
@@ -192,7 +194,9 @@ class StepAudioTTS:
         audio_text: str,
         edit_type: str,
         edit_info: Optional[str] = None,
-        text: Optional[str] = None
+        text: Optional[str] = None,
+        max_amplitude=0.6,
+        temperature=0.7,
     ) -> Tuple[torch.Tensor, int]:
         """
         Edit audio based on specified edit type
@@ -211,7 +215,7 @@ class StepAudioTTS:
         try:
             logger.debug(f"Starting audio editing: {edit_type} - {edit_info}")            
             vq0206_codes, vq02_codes_ori, vq06_codes_ori, speech_feat, _, speech_embedding = (
-                self.preprocess_prompt_wav(input_audio_path)
+                self.preprocess_prompt_wav(input_audio_path,max_amplitude)
             )
             if self.offload_cpu:
                 self.cosy_model.to("cpu")
@@ -237,7 +241,7 @@ class StepAudioTTS:
                 torch.tensor([prompt_tokens]).to(torch.long).to("cuda"),
                 #max_new_tokens=self.max_new_tokens,
                 max_length=8192,
-                temperature=0.7,
+                temperature=temperature,
                 do_sample=True,
                 logits_processor=LogitsProcessorList([RepetitionAwareLogitsProcessor()]),
             )
@@ -391,15 +395,15 @@ class StepAudioTTS:
             logger.error(f"Failed to process audio file: {e}")
             raise
 
-    def preprocess_prompt_wav(self, prompt_wav_path : str):
+    def preprocess_prompt_wav(self, prompt_wav_path : str,max_amplitude: float = 0.6):
         prompt_wav, prompt_wav_sr = torchaudio.load(prompt_wav_path)
         if prompt_wav.shape[0] > 1:
             prompt_wav = prompt_wav.mean(dim=0, keepdim=True)  # 将多通道音频转换为单通道
             
         # volume-normalize avoid clipping
         norm = torch.max(torch.abs(prompt_wav), dim=1, keepdim=True)[0]
-        if norm > 0.6: # hard code;  max absolute value is 0.6
-            prompt_wav = prompt_wav / norm * 0.6 
+        if norm > max_amplitude: # hard code;  max absolute value is 0.6
+            prompt_wav = prompt_wav / norm * max_amplitude
             
         speech_feat, speech_feat_len = self.cosy_model.frontend.extract_speech_feat(
             prompt_wav, prompt_wav_sr
