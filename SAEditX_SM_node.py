@@ -65,6 +65,8 @@ class Step_Audio_EditX_SM_KSampler(io.ComfyNode):
                 io.String.Input("edit_info",default="sad",multiline=False),
                 io.Boolean.Input("offload", default=True),
                 io.Int.Input("n_edit_iter", default=2, min=1, max=20,step=1,display_mode=io.NumberDisplay.number),
+                io.Float.Input("max_amplitude", default=0.6, min=0.0, max=1.0,step=0.1,display_mode=io.NumberDisplay.number),
+                io.Float.Input("temperature", default=0.7, min=0.0, max=1.0,step=0.1,display_mode=io.NumberDisplay.number),
 
             ],
             outputs=[
@@ -73,7 +75,7 @@ class Step_Audio_EditX_SM_KSampler(io.ComfyNode):
             ],
         )
     @classmethod
-    def execute(cls, model,audio,prompt_text,target_text,task,edit_info,offload,n_edit_iter) -> io.NodeOutput:    
+    def execute(cls, model,audio,prompt_text,target_text,task,edit_info,offload,n_edit_iter,max_amplitude,temperature) -> io.NodeOutput:    
         model.offload_cpu=offload
 
         # pre audio
@@ -95,7 +97,7 @@ class Step_Audio_EditX_SM_KSampler(io.ComfyNode):
 
         # start infer
         print("start infer")
-        state=infer_tts(model,args)
+        state=infer_tts(model,args,max_amplitude,temperature)
         cur_audio=state["history_messages"][-1]
         cur_info=state["history_audio"][-1]
         waveform=torch.from_numpy(cur_audio["edit_wave"][1]).cpu().float().unsqueeze(0) #torch.Size([1, 576000])
