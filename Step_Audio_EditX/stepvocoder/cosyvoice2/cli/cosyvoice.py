@@ -17,7 +17,6 @@ from ..flow.decoder_dit import DiT
 from ..hifigan.f0_predictor import ConvRNNF0Predictor
 from ..cli.frontend import CosyVoiceFrontEnd
 from ..flow.flow import CausalMaskedDiffWithXvec
-from ..hifigan.generator import HiFTGenerator
 from ..bigvgan.bigvgan import BigVGAN
 # from stepvocoder.cosyvoice2.utils.common import fade_in_out
 
