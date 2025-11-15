@@ -64,7 +64,7 @@ class StepAudioEditX:
             ])
         return show_msgs
 
-    def generate_clone(self,common_tts_engine, prompt_text_input, prompt_audio_input, generated_text, edit_type, edit_info, state, filename_out):
+    def generate_clone(self,common_tts_engine, prompt_text_input, prompt_audio_input, generated_text, edit_type, edit_info, state, filename_out,max_amplitude,temperature):
         """Generate cloned audio"""
         logger.info("Starting voice cloning process")
         state['history_audio'] = []
@@ -91,7 +91,7 @@ class StepAudioEditX:
         try:
             # Use common_tts_engine for cloning
             output_audio, output_sr = common_tts_engine.clone(
-                prompt_audio_input, prompt_text_input, generated_text
+                prompt_audio_input, prompt_text_input, generated_text,max_amplitude,temperature
             )
 
             if output_audio is not None and output_sr is not None:
@@ -130,7 +130,7 @@ class StepAudioEditX:
             logger.error(error_msg)
             return [{"role": "user", "content": error_msg}], state
         
-    def generate_edit(self,common_tts_engine, prompt_text_input, prompt_audio_input, generated_text, edit_type, edit_info, state, filename_out):
+    def generate_edit(self,common_tts_engine, prompt_text_input, prompt_audio_input, generated_text, edit_type, edit_info, state, filename_out,max_amplitude,temperature):
         """Generate edited audio"""
         logger.info("Starting audio editing process")
 
@@ -164,7 +164,7 @@ class StepAudioEditX:
 
             # Use common_tts_engine for editing
             output_audio, output_sr = common_tts_engine.edit(
-                audio_to_edit, text_to_use, edit_type, edit_info, generated_text
+                audio_to_edit, text_to_use, edit_type, edit_info, generated_text,max_amplitude,temperature
             )
 
             if output_audio is not None and output_sr is not None:
@@ -251,7 +251,7 @@ def load_TTS_model(model_path,model_source="local",quantization="fp16",tts_model
 
 
 
-def infer_tts(common_tts_engine,args):
+def infer_tts(common_tts_engine,args,max_amplitude,temperature):
     #os.makedirs(args.output_dir, exist_ok=True)
 
     # Create StepAudioEditX instance
@@ -266,6 +266,8 @@ def infer_tts(common_tts_engine,args):
             args.edit_info,
             step_audio_editx.init_state(),
             filename_out,
+            max_amplitude,
+            temperature,
         )
         
     else:
@@ -281,6 +283,8 @@ def infer_tts(common_tts_engine,args):
                 args.edit_info,
                 state,
                 filename_out,
+                max_amplitude,
+                temperature,
             )
     return  state
 
